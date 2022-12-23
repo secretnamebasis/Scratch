@@ -6,6 +6,15 @@ participant Twitter as Twitter
 participant Sender as Sender
 participant Receiver as Receiver
 
+loop Check authorization
+Sender->>TWERO: Request authorization
+TWERO->>DERO: Check authorization on DERO platform
+DERO-->>TWERO: Return authorization status
+TWERO->>Twitter: Check authorization on Twitter platform
+Twitter-->>TWERO: Return authorization status
+TWERO-->>Sender: Return combined authorization status
+end
+
 loop Encrypt and send message
 Sender->>TWERO: Send encrypted message to Receiver
 TWERO->>DERO: Encrypt message using DERO wallet API
