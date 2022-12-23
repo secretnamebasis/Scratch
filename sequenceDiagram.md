@@ -5,7 +5,7 @@ participant Smart Contract as Smart Contract
 participant Stripe as Stripe
 participant Coinbase as Coinbase
 participant KUCOIN as KUCOIN
-participant DERO as DERO
+participant Wallet as Wallet
 participant Seller as Seller
 
 Buyer->>Smart Contract: Query product
@@ -18,8 +18,8 @@ Smart Contract-->>Stripe: Product available
 Stripe-->>Buyer: Payment successful
 Stripe->>Coinbase: Deposit USD
 Coinbase->>KUCOIN: Exchange USD for USDT
-KUCOIN->>DERO: Exchange USDT for DERO
-DERO->>Smart Contract: Add DERO to escrow
+KUCOIN->>Wallet: Exchange USDT for DERO
+Wallet->>Smart Contract: Add DERO to escrow
 Smart Contract->>Seller: Release escrow
 Seller->>Smart Contract: Confirm shipment
 Smart Contract-->>Buyer: Confirm receipt
@@ -35,8 +35,8 @@ alt refund requested
     Smart Contract->>Seller: Approve or deny refund
     Seller-->>Smart Contract: Approve refund
     Smart Contract-->>Buyer: Refund approved
-    Smart Contract->>DERO: Withdraw funds from escrow
-    DERO->>KUCOIN: Exchange DERO for USDT
+    Smart Contract->>Wallet: Withdraw funds from escrow
+    Wallet->>KUCOIN: Exchange DERO for USDT
     KUCOIN->>Coinbase: Exchange USDT for USD
     Coinbase->>Stripe: Deposit USD
     Stripe-->>Buyer: Refund complete
