@@ -1,27 +1,18 @@
 ``` mermaid
 sequenceDiagram
+participant UserA as User A
 participant TWERO as TWERO
 participant DERO as DERO
-participant Twitter as Twitter
-participant Sender as Sender
-participant Receiver as Receiver
+participant UserB as User B
 
-loop Authenticate with Twitter
-Sender->>TWERO: Authenticate with Twitter
-TWERO->>Twitter: Send authentication request
-Twitter-->>Sender: Prompt for login credentials
-Sender-->>Twitter: Provide login credentials
-Twitter-->>TWERO: Return access token
-end
+UserA->>DERO: Authenticate
+DERO-->>UserA: Authenticate successful
+UserA->>DERO: Send DERO to UserB
+DERO->>UserB: Receive DERO
+TWERO->>Twitter: Generate tweet "@userA sent a twero msg to @userB"
 
-Sender->>TWERO: Send message to Receiver
-TWERO->>DERO: Encrypt message using DERO wallet API
-DERO-->>TWERO: Return encrypted message
-TWERO->>Twitter: Post encrypted message as tweet
-Twitter-->>Receiver: Deliver tweet
-
-Note right of TWERO: TWERO uses Twitter API and DERO wallet API to facilitate communication and transactions within Twitter platform
-Note right of DERO: DERO uses homomorphic encryption to secure messages
-Note right of Sender: Sender can send encrypted messages and authenticate with Twitter through TWERO
-Note right of Receiver: Receiver receives tweet from Twitter
-Note right of Twitter: Twitter verifies user's login credentials and provides access token to TWERO
+Note right of TWERO: TWERO uses DERO API to facilitate transactions and generates tweets to update users on activity
+Note right of DERO: DERO securely processes transactions between users
+Note right of UserA: UserA can send DERO to other users and update their followers on Twitter through TWERO
+Note right of UserB: UserB receives DERO through secure transactions processed by DERO
+```
