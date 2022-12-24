@@ -53,29 +53,29 @@ END FUNCTION
 ' Function to withdraw collateral from the pool
 FUNCTION withdraw()
 ' Accept input of collateral asset and amount
-10   DIM asset as Uint64
-20   DIM amount as Uint64
-23   asset = LOAD("asset")
-26   amount = LOAD("amount")
+10    DIM asset as Uint64
+20    DIM amount as Uint64
+23    asset = LOAD("asset")
+26    amount = LOAD("amount")
 ' Validate input
-30   IF asset <= 0 THEN RETURN 1
-40   IF amount <= 0 THEN RETURN 2
+30    IF asset <= 0 THEN RETURN 1
+40    IF amount <= 0 THEN RETURN 2
 ' Check that user has sufficient collateral in the pool
-50   DIM balance as Uint64
-55   balance = TOKENVALUE(asset, SCID())
-60   IF balance < amount THEN RETURN 3
+50    DIM balance as Uint64
+55    balance = TOKENVALUE(asset, SCID())
+60    IF balance < amount THEN RETURN 3
 ' Calculate withdrawal fee
-70   DIM fee as Uint64
-75   fee = FEE_RATE * amount
+70    DIM fee as Uint64
+75    fee = FEE_RATE * amount
 ' Check that user has sufficient balance to cover the fee
-80   DIM availableBalance as Uint64
-85   availableBalance = TOKENVALUE(COLLATERAL_ASSET, SCID())
-90   IF availableBalance < fee THEN RETURN 4
+80    DIM availableBalance as Uint64
+85    availableBalance = TOKENVALUE(COLLATERAL_ASSET, SCID())
+90    IF availableBalance < fee THEN RETURN 4
 ' Update user's balance and pool's total collateral and fee balance
-100   ADD_VALUE(asset, SCID(), -amount)
-110   ADD_VALUE(asset, SCID(), amount)
-120   ADD_VALUE(COLLATERAL_ASSET, SCID(), -fee)
-130   ADD_VALUE(COLLATERAL_ASSET, SCID(), fee)
+100    ADD_VALUE(asset, SCID(), -amount)
+110    ADD_VALUE(asset, SCID(), amount)
+120    ADD_VALUE(COLLATERAL_ASSET, SCID(), -fee)
+130    ADD_VALUE(COLLATERAL_ASSET, SCID(), fee)
 ' Return success message
 140 RETURN 0
 END FUNCTION
