@@ -1,0 +1,20 @@
+// TWERO workflow for sending a message and tweet notification
+
+// Step 1: userA authenticates
+// Check if userA has a valid DERO wallet
+if (!isAuthenticated(userA)) {
+return "Error: userA is not authenticated"
+}
+
+// Step 2: UserA sends DERO to UserB
+// Check if userB has a valid DERO wallet
+if (!isAuthenticated(userB)) {
+return "Error: userB is not authenticated"
+}
+
+// Send DERO from userA's wallet to userB's wallet
+sendDERO(userA, userB, amount)
+
+// Step 3: TWERO generates a tweet "@userA sent a twero msg @userB
+// Use Twitter API to send tweet notification
+sendTweet(userA, userB)
