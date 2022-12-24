@@ -1,28 +1,27 @@
-' Function to initialize the pool
 FUNCTION initialize()
-    ' Check that pool has not already been initialized
-10    IF EXISTS(SCID()) THEN RETURN 1
-    
-    ' Accept input of owner address and pool parameters
-20    DIM ownerAddress as String
-30    DIM borrowRate as Uint64
-40    DIM maintenanceMargin as Uint64
-42    ownerAddress = LOAD("ownerAddress")
-44    borrowRate = LOAD("borrowRate")
-46    maintenanceMargin = LOAD("maintenanceMargin")
-    
-    ' Validate input
-50    IF !IS_ADDRESS_VALID(ownerAddress) THEN RETURN 2
-60    IF borrowRate <= 0 THEN RETURN 3
-70    IF maintenanceMargin <= 0 THEN RETURN 4
-    
-    ' Set pool parameters and owner
-80    BORROW_RATE = borrowRate
-90    MAINTENANCE_MARGIN = maintenanceMargin
-100    OWNER = ownerAddress
-    
-    ' Return success message
-101    RETURN 0
+' Check that pool has not already been initialized
+10 IF EXISTS(SCID()) THEN RETURN 1
+' Accept input of owner address, pool parameters, and fee rate
+20 DIM ownerAddress as String
+30 DIM borrowRate as Uint64
+40 DIM maintenanceMargin as Uint64
+45 DIM feeRate as Uint64
+47 ownerAddress = LOAD("ownerAddress")
+49 borrowRate = LOAD("borrowRate")
+51 maintenanceMargin = LOAD("maintenanceMargin")
+53 feeRate = LOAD("feeRate")
+' Validate input
+60 IF !IS_ADDRESS_VALID(ownerAddress) THEN RETURN 2
+70 IF borrowRate <= 0 THEN RETURN 3
+80 IF maintenanceMargin <= 0 THEN RETURN 4
+90 IF feeRate <= 0 THEN RETURN 5
+' Set pool parameters and owner
+100 BORROW_RATE = borrowRate
+110 MAINTENANCE_MARGIN = maintenanceMargin
+120 FEE_RATE = feeRate
+130 OWNER = ownerAddress
+' Return success message
+140 RETURN 0
 END FUNCTION
 
 ' Function to deposit collateral into the pool
