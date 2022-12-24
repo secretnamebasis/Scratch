@@ -86,30 +86,25 @@ FUNCTION borrow()
 10    DIM asset as Uint64
 20    DIM amount as Uint64
 23    asset = LOAD("asset")
-26    amount = LOAD("amount")
-    
+26    amount = LOAD("amount")   
     ' Validate input
 30    IF asset <= 0 THEN RETURN 1
-40    IF amount <= 0 THEN RETURN 2
-    
+40    IF amount <= 0 THEN RETURN 2    
     ' Check that pool has sufficient supply of borrowed asset
 50    DIM supply as Uint64
 55    supply = TOKENVALUE(asset, SCID())
-60    IF supply < amount THEN RETURN 3
-    
+60    IF supply < amount THEN RETURN 3   
     ' Check that user has sufficient collateral to cover the borrow
 70    DIM collateral as Uint64
 75    collateral = TOKENVALUE(COLLATERAL_ASSET, SCID())
 80    DIM requiredCollateral as Uint64
 85    requiredCollateral = BORROW_RATE * amount
-90    IF collateral < requiredCollateral THEN RETURN 4
-    
+90    IF collateral < requiredCollateral THEN RETURN 4   
     ' Update user's balance and pool's total borrowed assets and total collateral
 100    ADD_VALUE(asset, SCID(), amount)
 110    ADD_VALUE(asset, SCID(), -amount)
 120    ADD_VALUE(COLLATERAL_ASSET, SCID(), -requiredCollateral)
-130    ADD_VALUE(COLLATERAL_ASSET, SCID(), requiredCollateral)
-    
+130    ADD_VALUE(COLLATERAL_ASSET, SCID(), requiredCollateral)    
     ' Return success message
 140    RETURN 0
 END FUNCTION
@@ -121,21 +116,17 @@ FUNCTION repay()
 10    DIM asset as Uint64
 20    DIM amount as Uint64
 23    asset = LOAD("asset")
-26    amount = LOAD("amount")
-    
+26    amount = LOAD("amount")   
     ' Validate input
 30    IF asset <= 0 THEN RETURN 1
-40    IF amount <= 0 THEN RETURN 2
-    
+40    IF amount <= 0 THEN RETURN 2  
     ' Check that user has sufficient balance of borrowed asset
 50    DIM balance as Uint64
 55    balance = TOKENVALUE(asset, SCID())
-60    IF balance < amount THEN RETURN 3
-    
+60    IF balance < amount THEN RETURN 3 
     ' Update user's balance and pool's total borrowed assets and total collateral
 70    ADD_VALUE(asset, SCID(), -amount)
 80    ADD_VALUE(asset, SCID(), amount)
-    
     ' Return success message
 90    RETURN 0
 END FUNCTION
