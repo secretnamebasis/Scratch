@@ -36,17 +36,22 @@ FUNCTION deposit()
 30    IF asset <= 0 THEN RETURN 1
 40    IF amount <= 0 THEN RETURN 2
     
+    ' Calculate fee and subtract it from the deposit amount
+50    DIM fee as Uint64
+53    fee = DEPOSIT_FEE_RATE * amount
+56    amount = amount - fee
+
     ' Check that user has sufficient balance of collateral asset
-50    DIM balance as Uint64
-55    balance = TOKENVALUE(asset, SCID())
-60    IF balance < amount THEN RETURN 3
+60    DIM balance as Uint64
+65    balance = TOKENVALUE(asset, SCID())
+70    IF balance < amount THEN RETURN 3
     
     ' Update user's balance and pool's total collateral
-70    ADD_VALUE(asset, SCID(), -amount)
-80    ADD_VALUE(asset, SCID(), amount)
+80    ADD_VALUE(asset, SCID(), -amount)
+90    ADD_VALUE(asset, SCID(), amount)
     
     ' Return success message
-90    RETURN 0
+100    RETURN 0
 END FUNCTION
 
 
